@@ -1,0 +1,3 @@
+Sorter: apenas possibilidade de receber um parâmetro fixo ou pode ser rules=None?
+	Sorter.sort() deve receber uma lista, para decidir qual fazer o sorting, precisa verificar se possui regras
+		se precisa verificar, então não precisa da primeira verificação no construtor
