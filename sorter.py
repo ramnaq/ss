@@ -14,6 +14,7 @@ class BookReceptor(object):
 
     def sort(self):
         if self._rulesraw is None:
+            '''Default sorting strategy, by title (TitleSorter)'''
             return self._strategies[0].sort()
 
         sorted_books = []
