@@ -51,7 +51,7 @@ class TitleSorter(BookSorter):
             self._books[b.title.lower()] = b
 
     def sort(self, reverse=False):
-        titles = list(map(lambda x: x.title.lower(), self._books.values()))
+        titles = [b.title.lower() for b in self._books.values()]
         sorted_titles = sorted(titles, reverse=reverse)
         return [self._books[title] for title in sorted_titles]
 
@@ -64,7 +64,7 @@ class AuthorSorter(BookSorter):
             self._books[b.author.lower()] = b
 
     def sort(self, reverse=False):
-        authors = list(map(lambda x: x.author.lower(), self._books.values()))
+        authors = [b.author.lower() for b in self._books.values()]
         sorted_authors = sorted(authors, reverse=reverse)
         return [self._books[author] for author in sorted_authors]
 
@@ -77,7 +77,7 @@ class EditionYearSorter(BookSorter):
             self._books[b.edition_year.lower()] = b
 
     def sort(self, reverse=False):
-        edyear = list(map(lambda x: x.edition_year.lower(), self._books.values()))
-        sorted_edyear = sorted(edyear, reverse=reverse)
+        edyears = [b.edition_year.lower() for b in self._books.values()]
+        sorted_edyear = sorted(edyears, reverse=reverse)
         return [self._books[edyear] for edyear in sorted_edyear]
 
