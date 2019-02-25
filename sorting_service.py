@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from book import Book
-from sorter import BookReceptor, TitleSorter
+from sorter import BookReceptor
 import sys
 
 def booklist():
@@ -15,12 +15,7 @@ def booklist():
     return books
 
 
-if __name__ == "__main__":
-    if len(sys.argv) > 2:
-        print("Error! More than 1 argument were provided.\n"\
-                + "You should run 'python sorting_service.py <sort.conf>'.")
-        exit(1)
-
+def main():
     books = booklist()
     if len(sys.argv) == 1:
         print("No configuration file. Default sorting: Title ascending.")
@@ -32,4 +27,13 @@ if __name__ == "__main__":
     
     for b in sorted_books:
         print(b, '\n')
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 2:
+        print("Error! More than 1 argument were provided.\n"\
+                + "You should run 'python sorting_service.py <sort.conf>'.")
+        exit(1)
+
+    main()
 
