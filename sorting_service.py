@@ -21,15 +21,14 @@ if __name__ == "__main__":
                 + "You should run 'python sorting_service.py <sort.conf>'.")
         exit(1)
 
+    books = booklist()
     if len(sys.argv) == 1:
         print("No configuration file. Default sorting: Title ascending.")
-        books = booklist()
-        context = BookReceptor(TitleSorter(books))
+        context = BookReceptor(books)
         sorted_books = context.sort()
     elif len(sys.argv) == 2:
-        conf_file_name = sys.argv[1]
-        rules = book_receptor.sorting_rules(conf_file_name)
-        sorted_books = book_receptor.sort_books(rules)
+        context = BookReceptor(books, cfgfilename=sys.argv[1])
+        sorted_books = context.sort()
     
     for b in sorted_books:
         print(b, '\n')
