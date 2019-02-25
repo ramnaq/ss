@@ -72,7 +72,7 @@ class EditionYearSorter(BookSorter):
     def __init__(self, books):
         self._books = {}
         for b in books:
-            self._books[b.edition_year.lower()] = b
+            self._books[b.edition_year] = b
 
     def sort(self, reverse=False):
         edyears = [b.edition_year.lower() for b in self._books.values()]
