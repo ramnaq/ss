@@ -48,11 +48,10 @@ class TitleSorter(BookSorter):
     def __init__(self, books):
         self._books = {}
         for b in books:
-            self._books[b.title.lower()] = b
+            self._books[b.title] = b
 
     def sort(self, reverse=False):
-        titles = [b.title.lower() for b in self._books.values()]
-        sorted_titles = sorted(titles, reverse=reverse)
+        sorted_titles = sorted(self._books.keys(), reverse=reverse)
         return [self._books[title] for title in sorted_titles]
 
 
@@ -61,11 +60,10 @@ class AuthorSorter(BookSorter):
     def __init__(self, books):
         self._books = {}
         for b in books:
-            self._books[b.author.lower()] = b
+            self._books[b.author] = b
 
     def sort(self, reverse=False):
-        authors = [b.author.lower() for b in self._books.values()]
-        sorted_authors = sorted(authors, reverse=reverse)
+        sorted_authors = sorted(self._books.keys(), reverse=reverse)
         return [self._books[author] for author in sorted_authors]
 
 
