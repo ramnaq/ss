@@ -35,9 +35,6 @@ class BookReceptor(object):
 
 
 class BookSorter(abc.ABC):
-    def setrules(self, r):
-        rules = r
-
     @abc.abstractmethod
     def sort(self, reverse=False):
         pass
