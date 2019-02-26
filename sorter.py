@@ -68,7 +68,7 @@ class BookSorter(ABC):
 
     def _sublist_limits(self, attrslist, index):
         attr = attrslist[index]
-        limits = [index, index + 1]  # [start, end]
+        limits = [index, index + 2]  # [start, end]
         i = limits[1] + 1 # indicates the new 'end'
         while (i < len(attrslist)-1) and (attrslist[i] == attr):
             limits[1] = i
