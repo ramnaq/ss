@@ -5,15 +5,12 @@ class Book(object):
         self._author = author 
         self._edition_year = edition_year 
 
-    @property
     def title(self):
         return self._title
 
-    @property
     def author(self):
         return self._author
 
-    @property
     def edition_year(self):
         return self._edition_year
 

@@ -1,8 +1,10 @@
-import abc
+from book import Book
+from abc import ABC, abstractmethod
 
 class BookReceptor(object):
 
     def __init__(self, books, cfgfilename=None):
+        self._books = books
         self._strategies = [TitleSorter(books), AuthorSorter(books), EditionYearSorter(books)]
         self._curr_rule = None
         self._rulesraw = None
@@ -14,13 +16,19 @@ class BookReceptor(object):
 
     def sort(self):
         if self._rulesraw is None:
+            '''Default sorting strategy, by title (TitleSorter)'''
             return self._strategies[0].sort()
 
         sorted_books = []
+        limits = [0, len(self._books)]
         while self._rulesraw:
             self._define_curr_rule(self._rulesraw.pop())
             currstrategy, sorting_order = self._curr_rule
-            sorted_books = currstrategy.sort(sorting_order)
+            sorted_books = currstrategy.sort(reverse=sorting_order, start=limits[0], end=limits[1])
+            limits = currstrategy.equal_elements()
+            if limits == []:
+                break
+
         return sorted_books
 
 
@@ -28,55 +36,78 @@ class BookReceptor(object):
         sorting_order = 0
         r = rawrule.split(' ')
         if len(r) == 2:
-            sorting_order = int(r[1])
+            sorting_order = int(r[1]) == 1
         strategy_index = int(r[0]) - 1
         self._curr_rule = [self._strategies[strategy_index], sorting_order]
 
 
-class BookSorter(abc.ABC):
-    def setrules(self, r):
-        rules = r
+class BookSorter(ABC):
 
-    @abc.abstractmethod
-    def sort(self, reverse=False):
-        pass
+    @abstractmethod
+    def sort(self, attrfunc, reverse=False, start=0, end=-1):
+        if end == -1:
+            end = len(self._books)
+        self._books[start:end] = sorted(self._books[start:end], key=attrfunc, reverse=reverse)
+        return self._books
+
+    @abstractmethod
+    def equal_elements(self, attrfunc):
+        sublists_limits = []
+        attrs = [attrfunc(b) for b in self._books]
+        i = 0  # indicates the end of a sublist
+        while i < len(attrs)-1:
+            if attrs[i] == attrs[i+1]:
+                start, i = self._sublist_limits(attrs, i)
+                sublists_limits.append(start)
+                sublists_limits.append(i)
+            i += 1
+        if sublists_limits == []:
+            sublists_limits = [-1 -1]
+        return sublists_limits
+
+
+    def _sublist_limits(self, attrslist, index):
+        attr = attrslist[index]
+        limits = [index, index + 2]  # [start, end]
+        i = limits[1] + 1 # indicates the new 'end'
+        while (i < len(attrslist)-1) and (attrslist[i] == attr):
+            limits[1] = i
+            i += 1
+        return limits
 
 
 class TitleSorter(BookSorter):
 
     def __init__(self, books):
-        self._books = {}
-        for b in books:
-            self._books[b.title.lower()] = b
+        self._books = books
 
-    def sort(self, reverse=False):
-        titles = list(map(lambda x: x.title.lower(), self._books.values()))
-        sorted_titles = sorted(titles, reverse=reverse)
-        return [self._books[title] for title in sorted_titles]
+    def sort(self, attrfunc=None, reverse=False, start=0, end=-1):
+        return super(TitleSorter, self).sort(Book.title, reverse, start, end)
+
+    def equal_elements(self, attrfunc=None):
+        return super(TitleSorter, self).equal_elements(attrfunc=Book.title)
 
 
 class AuthorSorter(BookSorter):
 
     def __init__(self, books):
-        self._books = {}
-        for b in books:
-            self._books[b.author.lower()] = b
+        self._books = books
 
-    def sort(self, reverse=False):
-        authors = list(map(lambda x: x.author.lower(), self._books.values()))
-        sorted_authors = sorted(authors, reverse=reverse)
-        return [self._books[author] for author in sorted_authors]
+    def sort(self, attrfunc=None, reverse=False, start=0, end=-1):
+        return super(AuthorSorter, self).sort(Book.author, reverse, start, end)
+
+    def equal_elements(self, attrfunc=None):
+        return super(AuthorSorter, self).equal_elements(attrfunc=Book.author)
 
 
 class EditionYearSorter(BookSorter):
 
     def __init__(self, books):
-        self._books = {}
-        for b in books:
-            self._books[b.edition_year.lower()] = b
+        self._books = books
 
-    def sort(self, reverse=False):
-        edyear = list(map(lambda x: x.edition_year.lower(), self._books.values()))
-        sorted_edyear = sorted(edyear, reverse=reverse)
-        return [self._books[edyear] for edyear in sorted_edyear]
+    def sort(self, attrfunc=None, reverse=False, start=0, end=-1):
+        return super(EditionYearSorter, self).sort(Book.edition_year, reverse, start, end)
+
+    def equal_elements(self, attrfunc=None):
+        return super(EditionYearSorter, self).equal_elements(attrfunc=Book.edition_year)
 
