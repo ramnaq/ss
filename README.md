@@ -1,6 +1,8 @@
 # Sorting Service (SS)
 A sorting and classification service for books.
 
+![alt image](diagram.png)
+
 ## How to
 The SS can be run with the following command:
 ```sh
@@ -16,6 +18,11 @@ where the numbers of the book parameters are: 1 (title), 2 (author), 3 (edition 
 `<descending flag>` is 1 when you want the order to be "descendent" (otherwise it is 0).
 Notice that an whitespace must be between the two numbers. An example of this can be found in
 [sort.conf](resources/sort.conf)
+
+To quick test the program, the following command can be run (using files from [resources](resources/)):
+```sh
+$ python sorting_service.py ../resources/books.txt ../resources/sort.conf2
+```
 
 ## Spec
 Language: [Python 3.7.1](https://www.python.org/downloads/release/python-371/)
