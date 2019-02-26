@@ -29,7 +29,7 @@ class BookReceptor(object):
         sorting_order = 0
         r = rawrule.split(' ')
         if len(r) == 2:
-            sorting_order = int(r[1])
+            sorting_order = int(r[1]) == 1
         strategy_index = int(r[0]) - 1
         self._curr_rule = [self._strategies[strategy_index], sorting_order]
 
