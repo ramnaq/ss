@@ -14,6 +14,10 @@ class BookReceptor(object):
 
 
     def sort(self):
+        '''Calls sort() of each specific BookSorter, consuming the file self._rulesraw.
+        Over each iteration, a vector 'limits' is updated with the limits of the sublist
+        of books that should be sorted by the next BookSorter/strategy.'''
+
         if self._rulesraw is None:
             '''Default sorting strategy, by title (strategy TitleSorter)'''
             return self._strategies[0].sort()
@@ -32,6 +36,7 @@ class BookReceptor(object):
 
 
     def _define_curr_rule(self, rawrule):
+        '''Defines the next rule (strategy and reverse flag) to be followed'''
         r = rawrule.split(' ')
         strategy_index = int(r[0]) - 1
         reverse = int(r[1])  == 1

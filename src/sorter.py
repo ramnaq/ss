@@ -12,6 +12,10 @@ class BookSorter(ABC):
 
     @abstractmethod
     def equal_elements(self, attrfunc):
+        '''Produces a list that is interpreted with two by two of its elements.
+        Said a pair [...,start,end,...], start and end are the indexes of self._books
+        where a sublist starts and ends. A "sublist" is a list of books that don't
+        differ of each other for the BookSorter.'''
         sublists_limits = []
         attrs = [attrfunc(b) for b in self._books]
         i = 0  # indicates the end of a sublist
@@ -28,8 +32,8 @@ class BookSorter(ABC):
 
     def _sublist_limits(self, attrslist, index):
         attr = attrslist[index]
-        limits = [index, index + 2]  # [start, end]
-        i = limits[1] + 1 # indicates the new 'end'
+        limits = [index, index + 2]  # limits = [start, end]
+        i = limits[1] + 1  # indicates the new 'end'
         while (i < len(attrslist)-1) and (attrslist[i] == attr):
             limits[1] = i
             i += 1
