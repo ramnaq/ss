@@ -24,7 +24,7 @@ class BookReceptor(object):
         while self._rulesraw:
             self._define_curr_rule(self._rulesraw.pop())
             currstrategy, sorting_order = self._curr_rule
-            sorted_books = currstrategy.sort(reverse=sorting_order)
+            sorted_books = currstrategy.sort(reverse=sorting_order, start=limits[0], end=limits[1])
             limits = currstrategy.equal_elements()
             if limits == []:
                 break
@@ -44,8 +44,10 @@ class BookReceptor(object):
 class BookSorter(ABC):
 
     @abstractmethod
-    def sort(self, attrfunc, reverse=False):
-        self._books = sorted(self._books, key=attrfunc, reverse=reverse)
+    def sort(self, attrfunc, reverse=False, start=0, end=-1):
+        if end == -1:
+            end = len(self._books)
+        self._books[start:end] = sorted(self._books[start:end], key=attrfunc, reverse=reverse)
         return self._books
 
     @abstractmethod
@@ -79,7 +81,7 @@ class TitleSorter(BookSorter):
     def __init__(self, books):
         self._books = books
 
-    def sort(self, attrfunc=None):
+    def sort(self, attrfunc=None, reverse=False, start=0, end=-1):
         return super(TitleSorter, self).sort(Book.title, reverse, start, end)
 
     def equal_elements(self, attrfunc=None):
@@ -91,7 +93,7 @@ class AuthorSorter(BookSorter):
     def __init__(self, books):
         self._books = books
 
-    def sort(self, attrfunc=None, reverse=False):
+    def sort(self, attrfunc=None, reverse=False, start=0, end=-1):
         return super(AuthorSorter, self).sort(Book.author, reverse, start, end)
 
     def equal_elements(self, attrfunc=None):
@@ -103,7 +105,7 @@ class EditionYearSorter(BookSorter):
     def __init__(self, books):
         self._books = books
 
-    def sort(self, attrfunc=None, reverse=False):
+    def sort(self, attrfunc=None, reverse=False, start=0, end=-1):
         return super(EditionYearSorter, self).sort(Book.edition_year, reverse, start, end)
 
     def equal_elements(self, attrfunc=None):
