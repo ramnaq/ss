@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from book import Book
-from bookreceptor import BookReceptor
+from bookreceiver import BookReceiver
 import sys
 
 
@@ -42,11 +42,11 @@ def main():
     books = booklist(sys.argv[1])
     if numargs == 2:
         print("No configuration file was provided. Default sorting: Title ascending.")
-        context = BookReceptor(books)
-        sorted_books = context.sort()
+        context = BookReceiver(books)
+        sorted_books = context.organize()
     elif len(sys.argv) == 3:
-        context = BookReceptor(books, cfgfilename=sys.argv[2])
-        sorted_books = context.sort()
+        context = BookReceiver(books, cfgfilename=sys.argv[2])
+        sorted_books = context.organize()
     
     printbooks(sorted_books)
 
