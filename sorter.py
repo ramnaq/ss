@@ -1,3 +1,4 @@
+from book import Book
 import abc
 
 class BookReceptor(object):
@@ -43,36 +44,29 @@ class BookSorter(abc.ABC):
 class TitleSorter(BookSorter):
 
     def __init__(self, books):
-        self._books = {}
-        for b in books:
-            self._books[b.title] = b
+        self._books = books
 
     def sort(self, reverse=False):
-        sorted_titles = sorted(self._books.keys(), reverse=reverse)
-        return [self._books[title] for title in sorted_titles]
+        self._books = sorted(self._books, key=Book.title, reverse=reverse)
+        return self._books
 
 
 class AuthorSorter(BookSorter):
 
     def __init__(self, books):
-        self._books = {}
-        for b in books:
-            self._books[b.author] = b
+        self._books = books
 
     def sort(self, reverse=False):
-        sorted_authors = sorted(self._books.keys(), reverse=reverse)
-        return [self._books[author] for author in sorted_authors]
+        self._books = sorted(self._books, key=Book.author, reverse=reverse)
+        return self._books
 
 
 class EditionYearSorter(BookSorter):
 
     def __init__(self, books):
-        self._books = {}
-        for b in books:
-            self._books[b.edition_year] = b
+        self._books = books
 
     def sort(self, reverse=False):
-        edyears = [b.edition_year.lower() for b in self._books.values()]
-        sorted_edyear = sorted(edyears, reverse=reverse)
-        return [self._books[edyear] for edyear in sorted_edyear]
+        self._books = sorted(self._books, key=Book.edition_year, reverse=reverse)
+        return self._books
 
