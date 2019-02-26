@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from book import Book
-from sorter import BookReceptor
+from bookreceptor import BookReceptor
 import sys
 
 def booklist():
