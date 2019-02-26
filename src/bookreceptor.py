@@ -43,11 +43,6 @@ class BookReceptor(object):
         self._curr_rule = [self._strategies[strategy_index], reverse]
 
 
-    def _sublist_books(self, limits):
-        for start, end in zip(*[iter(limits)]*2):
-            self._books = self._books[start:end+1]
-
-
 
 class OrderingException(Exception):
 
