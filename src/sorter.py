@@ -42,36 +42,42 @@ class BookSorter(ABC):
 
 class TitleSorter(BookSorter):
 
+    FTITLE = Book.title
+
     def __init__(self, books):
         self._books = books
 
     def sort(self, attrfunc=None, reverse=False, start=0, end=-1):
-        return super(TitleSorter, self).sort(Book.title, reverse, start, end)
+        return super(TitleSorter, self).sort(TitleSorter.FTITLE, reverse, start, end)
 
     def equal_elements(self, attrfunc=None):
-        return super(TitleSorter, self).equal_elements(attrfunc=Book.title)
+        return super(TitleSorter, self).equal_elements(attrfunc=TitleSorter.FTITLE)
 
 
 class AuthorSorter(BookSorter):
 
+    FAUTHOR = Book.author
+
     def __init__(self, books):
         self._books = books
 
     def sort(self, attrfunc=None, reverse=False, start=0, end=-1):
-        return super(AuthorSorter, self).sort(Book.author, reverse, start, end)
+        return super(AuthorSorter, self).sort(AuthorSorter.FAUTHOR, reverse, start, end)
 
     def equal_elements(self, attrfunc=None):
-        return super(AuthorSorter, self).equal_elements(attrfunc=Book.author)
+        return super(AuthorSorter, self).equal_elements(attrfunc=AuthorSorter.FAUTHOR)
 
 
 class EditionYearSorter(BookSorter):
 
+    F_EDITION_YEAR = Book.edition_year
+
     def __init__(self, books):
         self._books = books
 
     def sort(self, attrfunc=None, reverse=False, start=0, end=-1):
-        return super(EditionYearSorter, self).sort(Book.edition_year, reverse, start, end)
+        return super(EditionYearSorter, self).sort(EditionYearSorter.F_EDITION_YEAR, reverse, start, end)
 
     def equal_elements(self, attrfunc=None):
-        return super(EditionYearSorter, self).equal_elements(attrfunc=Book.edition_year)
+        return super(EditionYearSorter, self).equal_elements(attrfunc=EditionYearSorter.F_EDITION_YEAR)
 
