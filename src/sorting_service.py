@@ -31,7 +31,7 @@ def printbooks(books):
             print(b, '\n')
         print(last)
 
-def ain():
+def main():
     numargs = len(sys.argv)
 
     if numargs > 3:
