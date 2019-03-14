@@ -31,7 +31,7 @@ def printbooks(books):
             print(b, '\n')
         print(last)
 
-def main():
+def ain():
     numargs = len(sys.argv)
 
     if numargs > 3:
@@ -44,7 +44,7 @@ def main():
         print("No configuration file was provided. Default sorting: Title ascending.")
         context = BookReceiver(books)
         sorted_books = context.organize()
-    elif len(sys.argv) == 3:
+    elif numargs == 3:
         context = BookReceiver(books, cfgfilename=sys.argv[2])
         sorted_books = context.organize()
     
