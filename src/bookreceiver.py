@@ -4,7 +4,9 @@ class BookReceiver(object):
 
     def __init__(self, books, cfgfilename=None):
         self._books = books
-        self._strategies = [TitleSorter(books), AuthorSorter(books), EditionYearSorter(books)]
+        self._strategies = {"title_sorting": TitleSorter(books),
+                            "author_sorting": AuthorSorter(books),
+                            "edition_year_sorting": EditionYearSorter(books)}
         self._curr_rule = None  # has the form [BookSorter, int] (strategy and reverse order flag)
         self._rulesraw = None
         if cfgfilename is not None:
@@ -21,7 +23,7 @@ class BookReceiver(object):
 
         if self._rulesraw is None:
             '''Default sorting strategy, by title (strategy TitleSorter)'''
-            return self._strategies[0].sort()
+            return self._strategies["title_sorting"].sort()
 
         sorted_books = []
         limits = [0, len(self._books)]
@@ -39,7 +41,7 @@ class BookReceiver(object):
     def _define_curr_rule(self, rawrule):
         '''Defines the next rule (strategy and reverse flag) to be followed'''
         r = rawrule.split(' ')
-        strategy_index = int(r[0]) - 1
+        strategy_name = r[0]
         reverse = int(r[1]) == 1
-        self._curr_rule = [self._strategies[strategy_index], reverse]
+        self._curr_rule = [self._strategies[strategy_name], reverse]
 
