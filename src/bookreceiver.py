@@ -43,4 +43,3 @@ class BookReceiver(object):
         reverse = int(r[1]) == 1
         self._curr_rule = [self._strategies[strategy_index], reverse]
 
-

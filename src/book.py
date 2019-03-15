@@ -15,6 +15,6 @@ class Book(object):
         return self._edition_year
 
     def __str__(self):
-        return """Title: {}
-Author: {}
-Edition year: {}""".format(self._title, self._author, self._edition_year)
+        return (f"Title: {self._title}\n"
+                f"Author: {self._author}\n"
+                f"Edition year: {self._edition_year}")
